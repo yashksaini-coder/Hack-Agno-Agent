@@ -1,0 +1,67 @@
+> [!NOTE]
+> Main Backend server hosted on Render. It is a REST API server built using **[FastAPI](https://fastapi.tiangolo.com/)** and **[Agno](https://docs.agno.com/introduction)**. It is hosted on Render. 
+> The server is responsible for handling all the requests from the frontend and processing them. 
+> It also interacts with the Agno AI to get the predictions for the stock prices.
+
+## Tech Stack
+
+<table>
+    <tr>
+        <td><img src="https://skillicons.dev/icons?i=fastapi" height=24 width=24></td>
+        <td>FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints.</td>
+    </tr>
+    <tr>
+        <td><img src="https://avatars.githubusercontent.com/u/104874993?s=24"></td>
+        <td>Agno is a lightweight library for building multi-modal Agents.
+</td>
+    </tr>
+    <tr>
+        <td><img src="https://github.com/user-attachments/assets/d7439975-103a-4251-a341-1758729f0ab6" height=24 width=36></td>
+        <td>Render is a cloud provider that makes deploying your code as easy as deploying to localhost. You can deploy anything that runs on a single port.</td>
+    </tr>
+    <tr>
+        <td><img src="https://skillicons.dev/icons?i=docker" height=24 width=24></td>
+        <td>Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers</td>
+    </tr>
+    <tr>
+        <td><img src="https://skillicons.dev/icons?i=redis" height=24 width=24></td>
+        <td>Redis is a free, open-source, in-memory database that stores data as key-value pairs. It's often used as a cache, message broker, or database for quick responses.</td>
+    </tr>
+</table>
+
+---
+
+<a href="https://github.com/yashksaini-coder">
+    <table>
+        <tbody>
+            <tr>
+                <td align="left" valign="top" width="14.28%">
+                    <img src="https://github.com/yashksaini-coder.png?s=60" width="130px;"/>
+                    <br/>
+                    <h4 align="center">
+                        <b>Yash K. Saini</b>
+                    </h4>
+                    <div align="center">
+                        <p>(Author)</p>
+                    </div>
+                </td>
+                <td align="left" valign="top" width="85%">
+                    <p>
+                        👋 Hi there! I'm <u><em><strong>Yash K. Saini</strong></em></u>, a self-taught software developer and a computer science student from India.
+                    </p>
+                    <ul>
+                     <li>
+                        I love building & contributing to Open Source software solutions & projects that help solve real-world problems.
+                    </li>
+                    <li>
+                        I want to build products & systems that can benefit & solve problems for many other DEVs.
+                    </li>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</a>
+
+<p align="center">
+    <strong>🌟 If you find this project helpful, please give it a star on GitHub! 🌟</strong>
+</p>
