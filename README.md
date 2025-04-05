@@ -1,7 +1,48 @@
+<img src="./public/demo.png" alt="Demo" width="100%" align="center"/>
+
+---
+
 > [!NOTE]
 > Main Backend server hosted on Render. It is a REST API server built using **[FastAPI](https://fastapi.tiangolo.com/)** and **[Agno](https://docs.agno.com/introduction)**. It is hosted on Render. 
 > The server is responsible for handling all the requests from the frontend and processing them. 
 > It also interacts with the Agno AI to get the predictions for the stock prices.
+
+## Deployment
+
+The backend server can be locally deployed using Docker. Use the following command to build and run the server:
+
+- **Build the Docker image**
+```bash 
+docker-compose build
+```
+
+- **Run the Docker container**
+```bash
+docker-compose up
+```
+
+- **Access the server**
+```bash
+http://localhost:8000/
+```
+
+### API Documentation
+The API documentation is available at the following URL:
+
+```bash
+http://localhost:8000/docs
+```
+This documentation provides a detailed overview of all the available endpoints, including their request and response formats. You can also test the endpoints directly from the documentation.
+
+## Test the API
+You can test the API using Postman or any other API testing tool. The following endpoints are available:
+
+- /chat
+- /agent
+- /stock
+- /stock-analysis
+- /stock-news
+- /top-stocks
 
 ## Tech Stack
 
