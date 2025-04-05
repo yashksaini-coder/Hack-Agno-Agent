@@ -18,7 +18,7 @@ if not GROQ_API_KEY:
 web_search_agent = Agent(
     name="Web Search Agent",
     role="Search the web for real-time information based on user queries.",
-    model=Groq(id="llama-3.1-8b-instant", api_key=GROQ_API_KEY),
+    model=Groq(id="deepseek-r1-distill-llama-70b", api_key=GROQ_API_KEY),
     tools=[DuckDuckGoTools()],
     instructions=[
         "Use DuckDuckGo to search for the most relevant and recent information.",
@@ -32,7 +32,7 @@ web_search_agent = Agent(
 financial_agent = Agent(
     name="Financial Analysis Agent",
     role="Analyze financial metrics and provide insights.",
-    model=Groq(id="llama-3.1-8b-instant", api_key=GROQ_API_KEY),
+    model=Groq(id="deepseek-r1-distill-llama-70b", api_key=GROQ_API_KEY),
     tools=[YFinanceTools(enable_all=True)],
     instructions=dedent("""\
         You are a financial analyst. Your task is to retrieve and analyze financial data about stocks.
@@ -44,7 +44,7 @@ financial_agent = Agent(
 # Combine both agents into a multi-agent system
 multi_agent = Agent(
     team=[web_search_agent, financial_agent],
-    model=Groq(id="llama-3.1-8b-instant", api_key=GROQ_API_KEY),
+    model=Groq(id="deepseek-r1-distill-llama-70b", api_key=GROQ_API_KEY),
     instructions="Coordinate between web search and financial analysis to provide comprehensive insights.",
     markdown=True,
 )

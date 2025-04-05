@@ -8,12 +8,16 @@ from fastapi.templating import Jinja2Templates
 from agno.agent import RunResponse
 from controllers.agent import multi_agent
 import dotenv
+import groq
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 dotenv.load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+groq_client = groq.Client(api_key=GROQ_API_KEY)
+
 if not GROQ_API_KEY:
     raise ValueError("Please provide a GROQ API key")
 
@@ -27,12 +31,10 @@ async def health_check(request: Request):
             "uptime": "OK",
             "api": {
                 "groq_api": "connected" if GROQ_API_KEY else "not configured",
+                "gemini_api":"connected" if GEMINI_API_KEY else "not configured",
             },
             "ip": requests.get('https://api.ipify.org').text,
-            "services": {
-                "health":"/health",
-                "agent":"/agent"
-            },
+            
         }
 
         # Check if request is from a browser or format is explicitly set to html
@@ -88,8 +90,9 @@ async def health_check(request: Request):
             
         return JSONResponse(content=error_response)
 
-@router.get("/agent", response_class=HTMLResponse)
-def ask(request: Request, query: str = None):
+@router.get("/agent", response_class=HTMLResponse, name="agent")
+def agent(request: Request, query: str = Query(None, description="The investment question to ask")):
+
     """
     API endpoint to handle user investment-related questions and return AI-generated insights.
     """
@@ -131,3 +134,51 @@ def ask(request: Request, query: str = None):
     except Exception as e:
         return JSONResponse(content={"error": str(e)})
     
+@router.get("/chat", response_class=HTMLResponse)
+def chat(request: Request, query: str = None):
+    """
+    API endpoint to handle user investment-related questions and return AI-generated insights.
+    """
+    # Check if request is from a browser or format is explicitly set to html
+    accept_header = request.headers.get("accept", "")
+    if "text/html" in accept_header:
+        current_year = datetime.datetime.now().year
+        example_response = {
+            "question": "What are good tech stocks to invest in?",
+            "answer": "Some popular tech stocks to consider include Apple (AAPL), Microsoft (MSFT), Google (GOOGL), and Amazon (AMZN). However, you should always do your own research and consider your investment goals and risk tolerance before investing."
+        }
+        
+        return templates.TemplateResponse(
+            "route.html",
+            {
+                "request": request,
+                "route_path": "/chat",
+                "method": "GET",
+                "full_path": str(request.url).split("?")[0],
+                "description": "Chat endpoint that uses Groq's LLaMa model to answer investment questions.",
+                "parameters": [
+                    {"name": "query", "type": "string", "description": "The investment question to ask"},
+                    {"name": "format", "type": "string", "description": "Response format (html or json)"}
+                ],
+                "example_query": "What are good tech stocks to invest in?",
+                "example_response": json.dumps(example_response, indent=2),
+                "current_year": current_year
+            }
+        )
+    
+    # Handle regular API calls
+    if not query:
+        return JSONResponse(content={"error": "Query parameter is required"})
+    
+    try:
+        response = groq_client.chat.completions.create(
+            model="llama-3.3-70b-versatile", 
+            messages=[{"role": "system", "content": "You are an AI investment assistant."},
+                      {"role": "user", "content": query}]
+        )
+        
+        answer = response.choices[0].message.content
+        return JSONResponse(content={"question": query, "answer": answer})
+    
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)})
