@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   PlusCircle, RefreshCw, ChevronDown, 
-  Settings, User, Terminal, MoreVertical 
+  Settings, User, Terminal, MoreVertical, 
+  Github, Linkedin, Twitter // Add relevant icons
 } from "lucide-react";
 import { 
   DropdownMenu,
@@ -68,9 +68,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="bg-red-600 text-white p-1 rounded">
             <Terminal size={16} />
           </div>
-          <span className="font-bold text-white">AGENT UI</span>
+          <span className="font-bold text-white">Hack Agno Agent</span>
         </div>
-        <span className="text-red-500">Demo</span>
       </div>
 
       <Button 
@@ -108,21 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <div className="w-6 h-6 flex items-center justify-center mr-2 bg-red-600 rounded">
                 <Terminal size={14} />
               </div>
-              <span>BASIC AGENT</span>
-            </div>
-            <ChevronDown size={16} />
-          </Button>
-          
-          <Button
-            variant="outline"
-            className="w-full justify-between bg-gray-900 hover:bg-gray-800 text-white border-gray-700"
-            onClick={() => setSelectedAgent("OPENAI GPT-4O-MINI")}
-          >
-            <div className="flex items-center">
-              <div className="w-6 h-6 flex items-center justify-center mr-2 bg-gray-700 rounded">
-                <User size={14} />
-              </div>
-              <span>OPENAI GPT-4O-MINI</span>
+              <span>MULTI AGENT</span>
             </div>
             <ChevronDown size={16} />
           </Button>
@@ -186,6 +171,39 @@ const Sidebar: React.FC<SidebarProps> = ({
               )}
             </div>
           ))}
+        </div>
+        <div>
+        </div>
+      </div>
+
+      {/* Social Icons Section */}
+      <div className="p-4 border-t border-gray-800">
+        <h3 className="text-xs font-semibold text-gray-400 mb-2 text-center">CONNECT WITH ME</h3>
+        <div className="flex justify-center space-x-4">
+          <a 
+        href="https://github.com/yashksaini-coder" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-gray-400 hover:text-white"
+          >
+        <Github size={20} />
+          </a>
+          <a 
+        href="https://linkedin.com/in/yashksaini" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-gray-400 hover:text-white"
+          >
+        <Linkedin size={20} />
+          </a>
+          <a 
+        href="https://x.com/yash_k_saini" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-gray-400 hover:text-white"
+          >
+        <Twitter size={20} />
+          </a>
         </div>
       </div>
     </aside>
