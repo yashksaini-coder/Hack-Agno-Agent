@@ -1,6 +1,7 @@
 <img src="./public/demo.png" alt="Demo" width="100%" align="center"/>
 
 ---
+[![wakatime](https://wakatime.com/badge/user/9a827e04-5df8-4525-ace8-e88326bbf87a/project/ae998970-e02b-47a4-acbe-a48650c8551f.svg)](https://wakatime.com/badge/user/9a827e04-5df8-4525-ace8-e88326bbf87a/project/ae998970-e02b-47a4-acbe-a48650c8551f)
 
 > [!NOTE]
 > Main Backend server hosted on Render. It is a REST API server built using **[FastAPI](https://fastapi.tiangolo.com/)** and **[Agno](https://docs.agno.com/introduction)**. It is hosted on Render. 
