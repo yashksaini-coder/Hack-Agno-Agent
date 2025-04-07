@@ -10,16 +10,14 @@
 > The server is responsible for handling all the requests from the frontend and processing them. 
 > It also interacts with the Agno AI to get the predictions for the stock prices.
 
-<div align="center">
-    <iframe 
-        width="100%" 
-        height="480" 
-        src="https://www.youtube.com/embed/9jkqToUvmZ4" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-</div>
+<iframe 
+    width="100%" 
+    height="480" 
+    src="https://youtu.be/Ewnsmr99NJY" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+</iframe>
 
 ## Deployment
 
