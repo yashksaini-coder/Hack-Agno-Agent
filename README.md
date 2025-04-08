@@ -1,52 +1,52 @@
 <img src="./public/demo.png" alt="Demo" width="100%" align="center"/>
 
 ---
-[![wakatime](https://wakatime.com/badge/user/9a827e04-5df8-4525-ace8-e88326bbf87a/project/ae998970-e02b-47a4-acbe-a48650c8551f.svg)](https://wakatime.com/badge/user/9a827e04-5df8-4525-ace8-e88326bbf87a/project/ae998970-e02b-47a4-acbe-a48650c8551f) [![Demo Video](https://img.shields.io/badge/Demo%20video-8A2BE2)](https://www.youtube.com/watch?v=9jkqToUvmZ4)
+
+[![wakatime](https://wakatime.com/badge/user/9a827e04-5df8-4525-ace8-e88326bbf87a/project/ae998970-e02b-47a4-acbe-a48650c8551f.svg)](https://wakatime.com/badge/user/9a827e04-5df8-4525-ace8-e88326bbf87a/project/ae998970-e02b-47a4-acbe-a48650c8551f) 
+[![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://www.youtube.com/watch?v=9jkqToUvmZ4)
 
 ---
 
 > [!NOTE]
-> Main Backend server hosted on Render. It is a REST API server built using **[FastAPI](https://fastapi.tiangolo.com/)** and **[Agno](https://docs.agno.com/introduction)**. It is hosted on Render. 
-> The server is responsible for handling all the requests from the frontend and processing them. 
+> Main Backend server hosted on Render. It is a REST API server built using **[FastAPI](https://fastapi.tiangolo.com/)** and **[Agno](https://docs.agno.com/introduction)**. It is hosted on Render.
+> The server is responsible for handling all the requests from the frontend and processing them.
 > It also interacts with the Agno AI to get the predictions for the stock prices.
 
-<iframe 
-    width="100%" 
-    height="480" 
-    src="https://youtu.be/Ewnsmr99NJY" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-</iframe>
 
 ## Deployment
 
 The backend server can be locally deployed using Docker. Use the following command to build and run the server:
 
 - **Build the Docker image**
-```bash 
+
+```bash
 docker-compose build
 ```
 
 - **Run the Docker container**
+
 ```bash
 docker-compose up
 ```
 
 - **Access the server**
+
 ```bash
 http://localhost:8000/
 ```
 
 ### API Documentation
+
 The API documentation is available at the following URL:
 
 ```bash
 http://localhost:8000/docs
 ```
+
 This documentation provides a detailed overview of all the available endpoints, including their request and response formats. You can also test the endpoints directly from the documentation.
 
 ## Test the API
+
 You can test the API using Postman or any other API testing tool. The following endpoints are available:
 
 - /chat

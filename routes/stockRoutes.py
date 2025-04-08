@@ -17,7 +17,7 @@ async def read_root(request: Request):
     """Root endpoint returning API server information"""
     return templates.TemplateResponse("base.html", {
         "request": request, 
-        "text": "Investo-glow Backend API Server"
+        "text": "Hack AI agent Server"
     })
 
 @router.get("/top-stocks")
