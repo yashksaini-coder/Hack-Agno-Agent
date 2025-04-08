@@ -56,7 +56,7 @@ async def stock_news(request: Request):
                 "full_path": f"{request.url.scheme}://{request.url.netloc}/stock-news",
                 "description": "Returns latest news articles related to stocks and financial markets",
                 "parameters": [],
-                "example_response": json.dumps(result[:2], indent=2),
+                "example_response": json.dumps(result, indent=2),
                 "current_year": datetime.datetime.now().year
             })
         return result

@@ -21,14 +21,18 @@ groq_client = groq.Client(api_key=GROQ_API_KEY)
 if not GROQ_API_KEY:
     raise ValueError("Please provide a GROQ API key")
 
+start_time = datetime.datetime.now(datetime.timezone.utc)
+
 @router.get("/health", response_class=HTMLResponse)
 async def health_check(request: Request):
     """Health check endpoint to verify the API server status and connections."""
+    uptime = (datetime.datetime.now(datetime.timezone.utc) - start_time).total_seconds()
     try:
         response_data = {
             "status": "healthy",
             "timestamp": datetime.datetime.now().isoformat(),
             "uptime": "OK",
+            "uptime_seconds": uptime,
             "api": {
                 "groq_api": "connected" if GROQ_API_KEY else "not configured",
                 "gemini_api":"connected" if GEMINI_API_KEY else "not configured",
