@@ -57,6 +57,7 @@
             padding: 15px;
             border-radius: 5px;
             margin: 10px 0;
+            color: var(--text-color);
         }
 
         .request-body pre {
@@ -269,7 +270,11 @@
                 <form id="api-form" onsubmit="return sendRequest(event)">
                     <div class="input-group">
                         <label for="request-body">Request Body (JSON):</label>
-                        <textarea id="request-body" rows="5">{{ example_query }}</textarea>
+                        <p>
+                            <small>Example: <code>{ "query": "Should I invest in index funds?" }</code></small>
+                            <br>
+                        </p>
+                        <textarea id="request-body" rows="5"></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Send Request</button>
                 </form>

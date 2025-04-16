@@ -21,7 +21,7 @@ web_search_agent = Agent(
     model=Groq(id="deepseek-r1-distill-llama-70b", api_key=GROQ_API_KEY),
     tools=[DuckDuckGoTools()],
     instructions=[
-        "Use DuckDuckGo to search for the most relevant and recent information.",
+        "Search for the most relevant and recent information.",
         "Gather data from multiple sources and ensure accuracy.",
         "Present findings in a clear and concise manner."
     ],
