@@ -38,7 +38,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
             },
             status_code=405
         )
-    raise exc  # Re-raise other HTTP exceptions
+    raise Exception # Re-raise other HTTP exceptions
 
 app.include_router(stock_router)
 app.include_router(agent_router)
