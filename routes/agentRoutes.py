@@ -2,13 +2,18 @@ import os
 import datetime
 import json
 import requests
-from fastapi import FastAPI, APIRouter, Request, Query
+from fastapi import FastAPI, APIRouter, Request, Body
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 from agno.agent import RunResponse
 from controllers.agent import multi_agent
 import dotenv
 import groq
+
+# Define a Pydantic model for the request body
+class QueryRequest(BaseModel):
+    query: str
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -38,7 +43,7 @@ async def health_check(request: Request):
                 "gemini_api":"connected" if GEMINI_API_KEY else "not configured",
             },
             "ip": requests.get('https://api.ipify.org').text,
-            
+
         }
 
         # Check if request is from a browser or format is explicitly set to html
@@ -61,7 +66,7 @@ async def health_check(request: Request):
                     "current_year": current_year
                 }
             )
-        
+
         return JSONResponse(content=response_data)
 
     except Exception as e:
@@ -70,7 +75,7 @@ async def health_check(request: Request):
             "timestamp": datetime.datetime.now().isoformat(),
             "error": str(e)
         }
-        
+
         # Check if request is from a browser or format is explicitly set to html
         accept_header = request.headers.get("accept", "")
         if "text/html" in accept_header:
@@ -91,15 +96,16 @@ async def health_check(request: Request):
                     "current_year": current_year
                 }
             )
-            
+
         return JSONResponse(content=error_response)
 
-@router.get("/agent", response_class=HTMLResponse, name="agent")
-def agent(request: Request, query: str = Query(None, description="The investment question to ask")):
-
+@router.post("/agent", response_class=HTMLResponse, name="agent")
+async def agent(request: Request, payload: QueryRequest = Body(...)):
     """
-    API endpoint to handle user investment-related questions and return AI-generated insights.
+    API endpoint to handle user investment-related questions via POST request body
+    and return AI-generated insights.
     """
+    query = payload.query
      # Check if request is from a browser or format is explicitly set to html
     accept_header = request.headers.get("accept", "")
     if "text/html" in accept_header:
@@ -108,41 +114,45 @@ def agent(request: Request, query: str = Query(None, description="The investment
             "question": "Should I invest in index funds?",
             "answer": "Index funds are often a good choice for passive investors looking for broad market exposure with low fees. They offer diversification and typically outperform actively managed funds in the long term. However, the suitability depends on your investment goals, time horizon, and risk tolerance."
         }
+        example_request_body = {"query": "Should I invest in index funds?"}
 
         return templates.TemplateResponse(
             "route.html",
             {
                 "request": request,
                 "route_path": "/agent",
-                "method": "GET",
+                "method": "POST",
                 "full_path": str(request.url).split("?")[0],
-                "description": "Agent endpoint that uses a multi-AI system to provide sophisticated investment advice.",
+                "description": "Agent endpoint that uses a multi-AI system to provide sophisticated investment advice. Accepts a JSON body with a 'query' field.",
                 "parameters": [
-                    {"name": "query", "type": "string", "description": "The investment question to ask"},
+                    {"name": "Request Body", "type": "JSON", "description": "JSON object containing the 'query' field."},
                     {"name": "format", "type": "string", "description": "Response format (html or json)"}
                 ],
-                "example_query": "Should I invest in index funds?",
+                "example_query": json.dumps(example_request_body, indent=2), # Show example request body
                 "example_response": json.dumps(example_response, indent=2),
                 "current_year": current_year
             }
         )
-    
+
     if not query:
-        return JSONResponse(content={"error": "Query parameter is required"})
-    
+        # This check might be redundant if QueryRequest enforces the field, but kept for clarity
+        return JSONResponse(content={"error": "Query field in request body is required"}, status_code=400)
+
     try:
         response: RunResponse = multi_agent.run(query)
         answer = response.content
         return JSONResponse(content={"question": query, "answer": answer})
-    
+
     except Exception as e:
-        return JSONResponse(content={"error": str(e)})
-    
-@router.get("/chat", response_class=HTMLResponse)
-def chat(request: Request, query: str = None):
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@router.post("/chat", response_class=HTMLResponse)
+async def chat(request: Request, payload: QueryRequest = Body(...)):
     """
-    API endpoint to handle user investment-related questions and return AI-generated insights.
+    API endpoint to handle user investment-related questions via POST request body
+    and return AI-generated insights using Groq's LLaMa model.
     """
+    query = payload.query
     # Check if request is from a browser or format is explicitly set to html
     accept_header = request.headers.get("accept", "")
     if "text/html" in accept_header:
@@ -151,38 +161,39 @@ def chat(request: Request, query: str = None):
             "question": "What are good tech stocks to invest in?",
             "answer": "Some popular tech stocks to consider include Apple (AAPL), Microsoft (MSFT), Google (GOOGL), and Amazon (AMZN). However, you should always do your own research and consider your investment goals and risk tolerance before investing."
         }
-        
+        example_request_body = {"query": "What are good tech stocks to invest in?"}
+
         return templates.TemplateResponse(
             "route.html",
             {
                 "request": request,
                 "route_path": "/chat",
-                "method": "GET",
+                "method": "GET",  # Changed to GET since we're just displaying info
                 "full_path": str(request.url).split("?")[0],
-                "description": "Chat endpoint that uses Groq's LLaMa model to answer investment questions.",
+                "description": "Chat endpoint that uses Groq's LLaMa model to answer investment questions. For actual queries, use POST with a JSON body containing a 'query' field.",
                 "parameters": [
-                    {"name": "query", "type": "string", "description": "The investment question to ask"},
                     {"name": "format", "type": "string", "description": "Response format (html or json)"}
                 ],
-                "example_query": "What are good tech stocks to invest in?",
+                "example_query": "Using POST: " + json.dumps(example_request_body, indent=2),
                 "example_response": json.dumps(example_response, indent=2),
                 "current_year": current_year
             }
         )
-    
+
     # Handle regular API calls
     if not query:
-        return JSONResponse(content={"error": "Query parameter is required"})
-    
+        # This check might be redundant if QueryRequest enforces the field, but kept for clarity
+        return JSONResponse(content={"error": "Query field in request body is required"}, status_code=400)
+
     try:
         response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile", 
+            model="llama-3.3-70b-versatile",
             messages=[{"role": "system", "content": "You are an AI investment assistant."},
                       {"role": "user", "content": query}]
         )
-        
+
         answer = response.choices[0].message.content
         return JSONResponse(content={"question": query, "answer": answer})
-    
+
     except Exception as e:
-        return JSONResponse(content={"error": str(e)})
+        return JSONResponse(content={"error": str(e)}, status_code=500)
